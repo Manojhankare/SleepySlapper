@@ -41,15 +41,29 @@ def create_icon_image(color="green", status_symbol="✔", size=300):
 class SleepSlapperTrayApp:
     def __init__(self):
         self.running_mode = "Stopped"
-        self.pattern = "Random"
+        self.pattern = "Square"
         self.notifications_enabled = True
+        self.simulate_keyboard = False
+        self.simulate_click = False
         self.icon = self.create_icon()
         pyautogui.FAILSAFE = True
         self.update_queue = Queue()
+    
+    def toggle_keyboard(self, icon, item):
+        self.simulate_keyboard = not self.simulate_keyboard
+        state = "enabled" if self.simulate_keyboard else "disabled"
+        print(f"⌨️ Keyboard simulation {state}")
+        self.show_balloon("Keyboard Simulation", f"Keyboard input is now {state}.")
+
+    def toggle_mouse_click(self, icon, item):
+        self.simulate_click = not self.simulate_click
+        state = "enabled" if self.simulate_click else "disabled"
+        print(f"🖱️ Mouse click simulation {state}")
+        self.show_balloon("Mouse Click Simulation", f"Mouse clicks are now {state}.")
 
     def create_icon(self):
         image = create_icon_image("green", "✔")
-        return Icon("SleepSlapper", image, "SleepSlapper", menu=Menu(
+        return Icon("SleepSlapper", image, "SleepSlapper By Manoj", menu=Menu(
             MenuItem("Start (Manual)", lambda icon, item: self.set_mode("Manual")(icon, item), checked=lambda item: self.running_mode == "Manual"),
             MenuItem("AutoDetect", lambda icon, item: self.set_mode("Auto")(icon, item), checked=lambda item: self.running_mode == "Auto"),
             MenuItem("Stop", lambda icon, item: self.set_mode("Stopped")(icon, item), checked=lambda item: self.running_mode == "Stopped"),
@@ -61,6 +75,8 @@ class SleepSlapperTrayApp:
                 MenuItem("Triangle", lambda icon, item: self.set_pattern("Triangle")(icon, item), checked=lambda item: self.pattern == "Triangle"),
             )),
             Menu.SEPARATOR,
+            MenuItem("Simulate Keyboard Input", self.toggle_keyboard, checked=lambda item: self.simulate_keyboard),
+            MenuItem("Simulate Mouse Click", self.toggle_mouse_click, checked=lambda item: self.simulate_click),
             MenuItem("Toggle Notifications and Sound", self.toggle_notifications, checked=lambda item: self.notifications_enabled),
             Menu.SEPARATOR,
             MenuItem("Exit", self.exit)
@@ -132,6 +148,14 @@ class SleepSlapperTrayApp:
             self.move_in_circle()
         elif self.pattern == "Triangle":
             self.move_in_triangle()
+
+        if self.simulate_keyboard:
+            pyautogui.press('shift')
+            print("⌨️ Simulated Shift key press")
+
+        if self.simulate_click:
+            pyautogui.click()
+            print("🖱️ Simulated mouse click")
         
 
     def move_in_square(self, size=50):

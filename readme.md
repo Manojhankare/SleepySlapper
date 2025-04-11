@@ -16,6 +16,14 @@
 
 ---
 
+## 📦 Installation
+
+1. Download the latest release from the [Releases](https://github.com/manojhankare/SleepSlapper/releases) page.
+2. Extract the downloaded file.
+3. Run `SleepSlapper.exe`.
+
+---
+
 # 📦 Changelog
 
 All notable changes to **SleepSlapper** will be documented here.
@@ -27,6 +35,14 @@ All notable changes to **SleepSlapper** will be documented here.
 - Auto/Manual mode support
 - Mouse movement patterns (Random, Square, Circle, Triangle)
 - Tray icon with live status
+
+## [1.1.0] - 2025-04-11
+- ➕ Added simulated mouse clicks 🖱️
+- ➕ Added keyboard input simulation ⌨️
+- ➕ New tray options to toggle mouse/keyboard actions
+- ⚙ Improved overall movement logic
+
+---
 
 ## 🛠 Requirements
 
